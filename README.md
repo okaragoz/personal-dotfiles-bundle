@@ -1,14 +1,5 @@
-     _     _           _
-    | |   | |         | |
-    | |___| |_____  __| | ____
-    |_____  (____ |/ _  |/ ___)
-     _____| / ___ ( (_| | |
-    (_______\_____|\____|_|
-
-    # MY Yet Another Dotfile Repo v1.1
-    # Now with Prezto and Vundle!
-
-[![Join the chat at https://gitter.im/skwp/dotfiles](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/skwp/dotfiles?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## MY personalized Yet Another Dotfile Repo (YADR) v1.1  Bundle
+    #It includes Prezto and Vundle!
 
 #### sh -c "\`curl -fsSL https://raw.githubusercontent.com/okaragoz/personal-dotfiles-bundle/master/install.sh \`"
 
@@ -34,7 +25,7 @@ Please use GitHub Issues for pull requests or bug reports only.
 
 ## Screenshot
 
-![screenshot](https://i.imgur.com/3C1Ze.png)
+![screenshot](https://i.imgur.com/yzyoOuh.png)
 
 ## Installation
 
