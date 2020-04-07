@@ -287,4 +287,103 @@ rvm system do brew install vim --with-lua
 Pry offers a much better out of the box IRB experience with colors, tab completion, and lots of other tricks. You can also use it
 as an actual debugger by installing [pry-nav](https://github.com/nixme/pry-nav).
 
-[Learn more about YADR's pry customizations and how to install](doc/pry.md)
+Better zsh with Prezto
+======================
+
+Configure your .zpreztorc
+------------------------------------------------------
+
+This is the heart of prezto - here you enable modules and configure them.
+
+The README says that [the order of modules matters](https://github.com/sorin-ionescu/prezto/blob/master/runcoms/zpreztorc#L25 "the modules order matters") - I didn’t follow them at first and was wondering why nothing changed:
+
+Here is my `.zpreztorc`:
+
+    # Set the Prezto modules to load (browse modules).
+    # The order matters.
+    zstyle ':prezto:load' pmodule \
+      'directory' \
+      'utility' \
+      'completion' \
+      'git' \
+      'prompt' \
+      'syntax-highlighting' \
+      'history-substring-search' \
+    
+
+*   [directory](https://github.com/sorin-ionescu/prezto/tree/master/modules/directory "directory"): sets directory options
+*   [utility](https://github.com/sorin-ionescu/prezto/tree/master/modules/utility "utility"): defines aliases and functions (highlight matches when pressing `<tab>`)
+*   [completion](https://github.com/sorin-ionescu/prezto/tree/master/modules/completion "completion"): offers tab-completion from the [zsh-completions project](https://github.com/zsh-users/zsh-completions "zsh-completions project")
+*   [git](https://github.com/sorin-ionescu/prezto/tree/master/modules/git "git"): displays git repository information in the terminal
+*   [prompt](https://github.com/sorin-ionescu/prezto/tree/master/modules/prompt "prompt"): defines a theme for your terminal
+*   [syntax-highlighting](https://github.com/sorin-ionescu/prezto/tree/master/modules/syntax-highlighting "syntax-highlighting"): offers fish-like-highlighting statuslinecolorful executables, underlined folders, …
+*   [history-substring-search](https://github.com/sorin-ionescu/prezto/tree/master/modules/history-substring-search "history-substring-search"): type in a word and press up and down to cycle through matching commands
+
+Prompt color themes[](#prompt-color-themes)
+-------------------------------------------
+
+Press `prompt -l` to get an overview of the available fonts:
+
+    $ prompt -l
+    Currently available prompt themes:
+    agnoster cloud damoekri giddie kylewest minimal nicoulaj paradox peepcode powerline pure skwp smiley sorin
+    steeef adam1 adam2 bart bigfade clint elite2 elite fade fire off oliver pws redhat suse walters zefram
+    
+
+And you can change the theme by typing `$ prompt <name-of-the-theme>`
+
+Custom prompt color theme[](#custom-prompt-color-theme)
+-------------------------------------------------------
+
+I found the [josh prompt](https://gist.github.com/Veraticus/1b30a6b6cbe8dae57e9f#file-prompt_josh_setup-zsh "josh") very handy but changed it with parts from [mseri prompt](http://www.mseri.me/again-on-zsh/ "mseri") to create my own one, where I can see the full path in colors. You can find the theme I’m using as a [gist prompt\_wikimatze\_setup](https://gist.github.com/wikimatze/4c2fbaf8ebe1e8ce0c1f#file-prompt_wikimatze_setup "gist prompt\_wikimatze\_setup").
+
+Place this file in `~/.zprezto/modules/prompt/functions/prompt_wikimatze_setup` and set the theme in your `.zpreztorc`:
+
+    zstyle ':prezto:module:prompt' theme 'wikimatze'
+    
+
+Get rid of options-groups[](#get-rid-of-options-groups)
+-------------------------------------------------------
+
+When pressing tab to complete a command and you don’t like the category menus, you need to comment out the following lines in `~/.zprezto/modules/completion/init.zsh`:
+
+    # Group matches and describe.
+    zstyle ':completion:*:*:*:*:*' menu select
+    # zstyle ':completion:*:matches' group 'yes'
+    # zstyle ':completion:*:options' description 'yes'
+    # zstyle ':completion:*:options' auto-description '%d'
+    # zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+    # zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+    # zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+    # zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+    # zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+    # zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+    # zstyle ':completion:*' group-name ''
+    # zstyle ':completion:*' verbose yes
+    
+
+All credit for this tipp goes to [@jeromedalbert](https://twitter.com/jeromedalbert "jeromedalbert")
+
+  
+
+![Prezto without options-groups](https://farm2.staticflickr.com/1578/24113994870_9665eba9cf_o_d.png)
+
+Prezto without options-groups
+
+Problems with tmux[](#problems-with-tmux)
+-----------------------------------------
+
+After setting up everything, I started tmux and had a flickering cursor:
+
+  
+
+![blinking_tmux](https://cloud.githubusercontent.com/assets/264708/12245132/35b399fe-b8a7-11e5-9e57-22c571a5c185.gif)
+
+  
+
+I tried a lot of different options in my `.zpretzorc` file but finally found the source of error in my `tmux.conf` file. I had to remove some active-window/active-border settings:
+
+    set-window-option -g window-style 'bg=#181818'
+    set-window-option -g window-active-style 'bg=black'
+    set-window-option -g pane-active-border-style ''
+
